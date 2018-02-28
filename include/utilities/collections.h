@@ -83,6 +83,8 @@ void destroy_list(list <T> *list) {
 
 LIST_TEMPLATE
 void release_list(list <T> *list) {
+    ENSURE(list->items != null);
+
     list->deallocator(list->items);
     list->capacity = 0;
     list->length = 0;

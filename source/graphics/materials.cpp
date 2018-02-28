@@ -192,6 +192,10 @@ uniform_t get_uniform_from_definition(shader_program_t shader, uniform_definitio
     return uniform;
 }
 
+material_t get_default_material() {
+    ENSURE(false);
+}
+
 material_t create_material(material_definition_t definition) {
     material_t material = {};
     material.shader = create_shader(
@@ -390,4 +394,13 @@ texture_t gl_get_texture(material_t *material, const char *uniform_name){
 texture_material_propery_t gl_get_texture_full(material_t *material, const char *uniform_name){
     uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
     return uniform->value.texture_value;
+}
+
+void use_material(material_t *material) {
+    ENSURE(material != null);
+
+    glUseProgram(material->shader.program);
+
+    // TODO: Do I need to this every time? I know that I need this for AT LEAST the texture
+    send_all_uniforms_to_gl(&material->uniforms);
 }

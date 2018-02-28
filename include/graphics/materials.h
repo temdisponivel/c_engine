@@ -89,6 +89,8 @@ typedef struct material {
     list<uniform_t> uniforms;
 } material_t;
 
+material_t get_default_material();
+
 material_t create_material(material_definition_t definition);
 
 void destroy_material(material_t material);
@@ -156,5 +158,7 @@ glm::mat4 gl_get_matrix(material_t *material, const char *uniform_name);
 texture_t gl_get_texture(material_t *material, const char *uniform_name);
 
 texture_material_propery_t gl_get_texture_full(material_t *material, const char *uniform_name);
+
+void use_material(material_t *material);
 
 #endif //ENGINE_MATERIALS_H

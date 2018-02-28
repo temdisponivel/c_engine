@@ -47,3 +47,9 @@ int hash(const char *str) {
     }
     return hash;
 }
+
+char *copy_string(std::string string) {
+    char *name = (char *) memalloc(sizeof(char) * string.size());
+    memcpy(name, string.c_str(), sizeof(char) * string.size());
+    return name;
+}

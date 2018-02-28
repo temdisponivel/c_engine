@@ -19,7 +19,7 @@ set(deps_lib_dir "${CMAKE_SOURCE_DIR}/deps/lib/${plataform}")
 set(libs "-lopengl32 -lglu32 -lgdi32 -lglfw3dll -lglew32 -luser32 -lkernel32 -lOpenAl32")
 
 include_directories("include;${deps_include_dir}")
-set(SOURCE_FILES include/core/core.h include/core/types.h include/graphics/materials.h include/utilities/collections.h main.cpp include/graphics/textures.h include/graphics/main_gl.h include/graphics/models.h source/graphics/materials.cpp source/utilities/util.cpp include/utilities/util.h source/graphics/textures.cpp source/graphics/models.cpp)
+set(SOURCE_FILES include/core/core.h include/core/types.h include/graphics/materials.h include/utilities/collections.h main.cpp include/graphics/textures.h include/graphics/main_gl.h include/graphics/models.h source/graphics/materials.cpp source/utilities/util.cpp include/utilities/util.h source/graphics/textures.cpp source/graphics/models.cpp include/graphics/obj_loader.h source/graphics/main_gl.cpp)
 add_executable(engine ${SOURCE_FILES})
 target_link_libraries(engine -L${deps_lib_dir} ${libs})
 

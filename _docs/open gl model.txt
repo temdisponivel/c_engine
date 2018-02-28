@@ -1,0 +1,58 @@
+VAO is the opengl representation of a model
+
+A VAO has a bunch of attribute lists
+	- Each attribute list is used to store some set of sound_data about a 3D mode
+		- So one attribute list stores the vertex screen_position, another stores the vertex colors, another stores the normals, etc
+
+
+A VBO is sound_data that can be store in a attribute list
+
+
+VAO					VBO
+______________________
+|VBO 1 (vertex pos)___|			VBO 1 | x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4
+|VBO 2 (vertex color)_|			VBO 2 | r1, g1, b1, r2, g2, b2, r3, g3, b3, r4, g4, b4
+|VBO 2 (vertex normals)|		VBO 3 | nx1, ny1, nz1, nx2, ny2, nz2, nx3, ny3, nz3, nx4, ny4, nz4
+|_____________________|
+|_____________________|
+|_____________________|
+|_____________________|
+|_____________________|
+
+
+Vertex shader - Geometry shader - Rasterizer Engine - Fragment shader
+
+Create VAO - bind VAO - create VBO - buff VBO sound_data - configure VBO sound_data pattern and add the VBO to the VAO (glVertexAttribPointer) - enable VBO index
+
+
+The shader receives sound_data from the VAO and draws them.
+
+
+If OpenGL suddenly crashs on draw functions (glDrawArrays), the sound_data you are trying to draw (sound_data on the VBO attached to the current VAO) is invalid.
+
+to draw, do (every time):
+
+bind VAO
+enable VBOs
+drawArrays
+disable VBOs
+unbind VAO
+
+OpenGL always wants vertices to be supplied counter cock wise.
+Always bind the vertex indice buffer when drawing (on update_callback)
+
+glEnableVertexAttribArray receives the INDEX of the VBO, not the handle!!!
+
+stencil func:
+
+    int current_stencil_value = 1;
+        int test_stencil_value = 2;
+        int mask = 0xFF;
+
+        int delta = (test_stencil_value & mask) - (current_stencil_value & mask);
+        if (GL_EQUAL && delta == 0)
+            //success
+        if (GL_LESS && delta < 0)
+            // succ
+        if (GL_GREATER && delta < 0)
+            // fail

@@ -1,0 +1,68 @@
+------- REFACTOR ------------
+Add default uniforms (MVP, MODEL, TIME, etc) to materials
+    Set these default uniforms when "use_material" is called
+
+
+full obj file loading (including submesh, materials, faces, etc)
+    automatically create material when loading objs (or at least create a wrapper function that does this)
+    maybe make meshs have submeshs instead of loading multiple models/meshs from a obj file
+
+add audio
+    add distance attenuation
+    fix 3D problems
+    add properties like duration, set position, etc
+
+make a asset catalog to be used as a database in order to load each asset only once
+
+move stencil settings to material
+
+add something similar to a sprite renderer or a VERY easy way to load sprites
+
+make it possible to rebuff mesh data to opengl
+    make immediate_quad, immediate_circle, etc
+
+make something similar to a GUI camera that will have no projection nor view matrices
+    it will just display the mesh with its raw coordinates ????
+
+add bitmaps
+
+texture atlas
+
+revisite the relation between camera, material, buffers (color, depth, stencil), etc
+
+finish implementing all window functions
+
+cursor manipulation (set pos, image, etc)
+
+make sure the input system is good enough, maybe query the key states ourselfs instead of getting the callback
+
+test the layout of the input (it seems to NOT be ABTN2)
+
+add transparency (blend, etc)
+
+add anti-allising, texture filtering, etc
+
+fix all the "todo:" in code
+
+better material (relative paths to texture and shaders, maybe hot reload)
+better error handling
+fix release stuff
+
+maybe load materials from string buffer instead of FILE?
+
+maybe put all shaders into one file and parse at runtime (just like shader lab)?
+    Because as of this moment, the material is telling the game all the uniforms, properties, etc
+    this should really be done in the shader. The material should only "read" what the shader exposes
+    and change the values of the properties
+
+refactor the archtecture of the core stuff
+
+also refactor the stuff on graphics (like the list of all mesh renderers that will be draw)
+
+text input
+
+implement joystick input
+
+make functions inline
+
+fix load of RGB-only textures

@@ -2,6 +2,9 @@
 Add default uniforms (MVP, MODEL, TIME, etc) to materials
     Set these default uniforms when "use_material" is called
 
+Change from stbi to SOIL
+    Maybe use this to load files: https://icculus.org/physfs/
+
 
 full obj file loading (including submesh, materials, faces, etc)
     automatically create material when loading objs (or at least create a wrapper function that does this)

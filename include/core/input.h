@@ -6,6 +6,7 @@
 #define ENGINE_INPUT_H
 
 #include "core.h"
+#include "video.h"
 
 enum INIT_INPUT_RESULT {
     INIT_INPUT_OK,
@@ -316,42 +317,41 @@ typedef struct input_state {
     mouse_state_t mouse_state;
 } input_state_t;
 
-INIT_INPUT_RESULT init_input(input_state_t *state);
+INIT_INPUT_RESULT init_input();
 
-void release_input(input_state_t *state);
+void release_input();
 
-void update_input(input_state_t *state);
+void update_input();
 
-KEY_STATE get_key_state(const input_state_t *state, KEY key);
+KEY_STATE get_key_state(KEY key);
 
-bool is_key_pressed(const input_state_t *state, KEY key);
+bool is_key_pressed(KEY key);
 
-bool is_key_down(const input_state_t *state, KEY key);
+bool is_key_down(KEY key);
 
-bool is_key_released(const input_state_t *state, KEY key);
+bool is_key_released(KEY key);
 
-bool is_key_normal(const input_state_t *state, KEY key);
+bool is_key_normal(KEY key);
 
-const char *get_key_name(const input_state_t *state, KEY key);
+const char *get_key_name(KEY key);
 
 MOUSE_BUTTON_STATE get_mouse_updated_state(
-        const input_state_t *state,
         MOUSE_BUTTON_STATE current_state,
         uint glfw_state
 );
 
-MOUSE_BUTTON_STATE get_mouse_button_state(const input_state_t *state, MOUSE_BUTTON button);
+MOUSE_BUTTON_STATE get_mouse_button_state(MOUSE_BUTTON button);
 
-bool is_mouse_button_pressed(const input_state_t *state, MOUSE_BUTTON button);
+bool is_mouse_button_pressed(MOUSE_BUTTON button);
 
-bool is_mouse_button_down(const input_state_t *state, MOUSE_BUTTON button);
+bool is_mouse_button_down(MOUSE_BUTTON button);
 
-bool is_mouse_button_release(const input_state_t *state, MOUSE_BUTTON button);
+bool is_mouse_button_release(MOUSE_BUTTON button);
 
-bool is_mouse_button_normal(const input_state_t *state, MOUSE_BUTTON button);
+bool is_mouse_button_normal(MOUSE_BUTTON button);
 
-glm::vec2 get_mouse_screen_pos(const input_state_t *state);
+glm::vec2 get_mouse_screen_pos();
 
-glm::vec2 get_mouse_delta_scroll(const input_state_t *state);
+glm::vec2 get_mouse_delta_scroll();
 
 #endif //ENGINE_INPUT_H

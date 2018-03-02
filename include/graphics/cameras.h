@@ -7,7 +7,6 @@
 
 #include "core/video.h"
 #include "core/transform.h"
-#include "core/engine_manager.h"
 
 enum CAMERA_TYPE {
     ORTHO,

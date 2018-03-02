@@ -43,7 +43,7 @@ void set_ortho_matrices(camera_t *camera) {
 void setup_perspetive(camera_t *camera, perspective_params_t params) {
     camera->type = PERSPECTIVE;
 
-    camera->view_port.size = get_video_size(get_video_state());
+    camera->view_port.size = get_video_size();
     camera->view_port.position = glm::ivec2(0, 0);
 
     camera->perspetive = params;
@@ -54,7 +54,7 @@ void setup_perspetive(camera_t *camera, perspective_params_t params) {
 void setup_ortho(camera_t *camera, orthogonal_params_t params) {
     camera->type = ORTHO;
 
-    camera->view_port.size = get_video_size(get_video_state());
+    camera->view_port.size = get_video_size();
     camera->view_port.position = glm::ivec2(0, 0);
 
     camera->ortho = params;

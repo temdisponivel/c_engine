@@ -44,20 +44,20 @@ typedef struct video_state {
     window_t main_window;
 } video_state_t;
 
-INIT_VIDEO_RESULT init_video(video_state_t *result, init_video_params_t params);
+INIT_VIDEO_RESULT init_video(init_video_params_t params);
 
-void release_video(video_state_t *video_state);
+void release_video();
 
-window_t get_window(const video_state_t *video_state);
+window_t get_window();
 
-video_info_t get_video_info(const video_state_t *video_state);
+video_info_t get_video_info();
 
-glm::ivec2 get_video_size(const video_state_t *video_state);
+glm::ivec2 get_video_size();
 
-float get_video_ratio(const video_state_t *video_state);
+float get_video_ratio();
 
-void update_video(video_state_t *state);
+void update_video();
 
-void swap_windows_buffers(const video_state_t *state);
+void swap_windows_buffers();
 
 #endif //ENGINE_VIDEO_H

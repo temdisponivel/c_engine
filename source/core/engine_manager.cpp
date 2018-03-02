@@ -30,7 +30,11 @@ INITIALIZE_ENGINE_RESULT init_engine(init_engine_params_t params) {
         return INIT_ENGINE_FAIL;
     }
 
+    ENSURE(params.update_callback != null);
+
     engine_state.break_loop = false;
+    engine_state.update_callback = params.update_callback;
+
     return INIT_ENGINE_OK;
 }
 
@@ -49,10 +53,10 @@ void run_one_frame() {
     if (window.state == WINDOW_SHOULD_BE_CLOSED || window.state == WINDOW_DESTROYED) {
         engine_state.break_loop = true;
     } else {
+        // Simulate
+        engine_state.update_callback();
 
-
-        // Simulate, draw, etc
-
+        // Draw
     }
 }
 

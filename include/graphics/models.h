@@ -48,4 +48,6 @@ void destroy_mesh(mesh_t mesh);
 
 void draw_mesh(mesh_t *mesh);
 
+void create_quad(mesh_t *mesh, glm::vec3 center, glm::vec2 size);
+
 #endif //ENGINE_MODELS_H

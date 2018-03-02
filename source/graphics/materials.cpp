@@ -192,26 +192,58 @@ uniform_t get_uniform_from_definition(shader_program_t shader, uniform_definitio
     return uniform;
 }
 
-material_t get_default_material() {
+void setup_default_material_definition(material_definition_t *definition) {
+    definition->vertex_attrib_names.position_name = POSITION_ATTRIBUTE_NAME;
+    definition->vertex_attrib_names.tex_coord_name = TEX_COORD_ATTRIBUTE_NAME;
+    definition->vertex_attrib_names.normal_name = NORMAL_ATTRIBUTE_NAME;
+    definition->vertex_attrib_names.color_name = COLOR_ATTRIBUTE_NAME;
+
+    setup_list(&definition->uniforms, 5);
+
+    uniform_definition_t uniform = {};
+
+    uniform.type = UNIFORM_MATRIX;
+    uniform.name = MVP_UNIFORM_NAME;
+    uniform.default_value.matrix_value = glm::mat4();
+    add(&definition->uniforms, uniform);
+
+    uniform.type = UNIFORM_MATRIX;
+    uniform.name = MODEL_UNIFORM_NAME;
+    uniform.default_value.matrix_value = glm::mat4();
+    add(&definition->uniforms, uniform);
+
+    uniform.type = UNIFORM_MATRIX;
+    uniform.name = VIEW_UNIFORM_NAME;
+    uniform.default_value.matrix_value = glm::mat4();
+    add(&definition->uniforms, uniform);
+
+    uniform.type = UNIFORM_MATRIX;
+    uniform.name = PROJECTION_UNIFORM_NAME;
+    uniform.default_value.matrix_value = glm::mat4();
+    add(&definition->uniforms, uniform);
+}
+
+void get_default_material(material_t *material) {
     ENSURE(false);
 }
 
-material_t create_material(material_definition_t definition) {
-    material_t material = {};
-    material.shader = create_shader(
-            definition.vertex_code,
-            definition.fragment_code,
-            definition.geometry_code,
-            definition.vertex_attrib_names
+void create_material(material_t *material, const material_definition_t *definition) {
+    ENSURE(material != null);
+    ENSURE(definition != null);
+
+    material->shader = create_shader(
+            definition->vertex_code,
+            definition->fragment_code,
+            definition->geometry_code,
+            definition->vertex_attrib_names
     );
 
-    setup_list(&material.uniforms, definition.uniforms.length);
-    for (int i = 0; i < definition.uniforms.length; ++i) {
-        uniform_definition_t uniform_definition = definition.uniforms.items[i];
-        uniform_t uniform = get_uniform_from_definition(material.shader, &uniform_definition);
-        add(&material.uniforms, uniform);
+    setup_list(&material->uniforms, definition->uniforms.length);
+    for (int i = 0; i < definition->uniforms.length; ++i) {
+        uniform_definition_t uniform_definition = definition->uniforms.items[i];
+        uniform_t uniform = get_uniform_from_definition(material->shader, &uniform_definition);
+        add(&material->uniforms, uniform);
     }
-    return material;
 }
 
 void destroy_material(material_t material) {

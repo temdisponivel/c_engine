@@ -19,7 +19,7 @@ set(deps_lib_dir "${CMAKE_SOURCE_DIR}/deps/lib/${plataform}")
 set(libs "-lopengl32 -lglu32 -lgdi32 -lglfw3dll -lglew32 -luser32 -lkernel32 -lOpenAl32")
 
 include_directories("include;${deps_include_dir}")
-set(SOURCE_FILES include/core/core.h include/core/types.h include/graphics/materials.h include/utilities/collections.h main.cpp include/graphics/textures.h include/graphics/main_gl.h include/graphics/models.h source/graphics/materials.cpp source/utilities/util.cpp include/utilities/util.h source/graphics/textures.cpp source/graphics/models.cpp include/graphics/obj_loader.h source/graphics/main_gl.cpp include/graphics/cameras.h include/core/transform.h source/core/transform.cpp source/graphics/cameras.cpp include/core/video.h source/core/video.cpp include/core/input.h source/core/input.cpp include/core/engine_manager.h source/core/engine_manager.cpp)
+set(SOURCE_FILES include/core/core.h include/core/types.h include/graphics/materials.h include/utilities/collections.h main.cpp include/graphics/textures.h include/graphics/main_gl.h include/graphics/models.h source/graphics/materials.cpp source/utilities/util.cpp include/utilities/util.h source/graphics/textures.cpp source/graphics/models.cpp include/graphics/obj_loader.h source/graphics/main_gl.cpp include/graphics/cameras.h include/core/transform.h source/core/transform.cpp source/graphics/cameras.cpp include/core/video.h source/core/video.cpp include/core/input.h source/core/input.cpp include/core/engine_manager.h source/core/engine_manager.cpp data/shaders/gui_vertex_shader.glsl)
 add_executable(engine ${SOURCE_FILES})
 target_link_libraries(engine -L${deps_lib_dir} ${libs})
 

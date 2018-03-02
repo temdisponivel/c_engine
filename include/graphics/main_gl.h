@@ -15,10 +15,15 @@
 #define NORMAL_ATTRIBUTE_INDEX 2
 #define TEX_COORD_ATTRIBUTE_INDEX 3
 
-#define POSITION_ATTRIBUTE_NAME "v_positions"
-#define COLOR_ATTRIBUTE_NAME "v_color"
-#define NORMAL_ATTRIBUTE_NAME "v_normal"
-#define TEX_COORD_ATTRIBUTE_NAME "v_tex_coord"
+#define POSITION_ATTRIBUTE_NAME ((char *) "v_positions")
+#define COLOR_ATTRIBUTE_NAME ((char *) "v_color")
+#define NORMAL_ATTRIBUTE_NAME ((char *) "v_normal")
+#define TEX_COORD_ATTRIBUTE_NAME ((char *) "v_tex_coord")
+
+#define MVP_UNIFORM_NAME ((char *) "MVP")
+#define MODEL_UNIFORM_NAME ((char *) "Object")
+#define VIEW_UNIFORM_NAME ((char *) "View")
+#define PROJECTION_UNIFORM_NAME ((char *) "Projection")
 
 
 enum COMPARE_FUNCTIONS {

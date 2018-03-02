@@ -203,7 +203,8 @@ mesh_t create_mesh(const model_t *model) {
     list<mesh_data_t> childs;
     setup_list(&childs, model->childs.length);
 
-    material_t material = get_default_material();
+    material_t material;
+    get_default_material(&material);
 
     for (int i = 0; i < model->childs.length; ++i) {
         model_data_t model_data = model->childs.items[i];
@@ -295,4 +296,45 @@ void draw_mesh(mesh_t *mesh) {
     set_vertex_attributes_state(false);
 
     glBindVertexArray(HANDLE_NONE);
+}
+
+void create_quad(mesh_t *mesh, glm::vec3 center, glm::vec2 size) {
+    ENSURE(mesh != null);
+
+    model_t model;
+    setup_list(&model.childs, 1);
+
+    model_data_t model_data;
+    model_data.material_name = copy_string("quad_material");
+
+    setup_list(&model_data.indices, 6);
+    add(&model_data.indices, (uint) 0);
+    add(&model_data.indices, (uint) 1);
+    add(&model_data.indices, (uint) 2);
+    add(&model_data.indices, (uint) 2);
+    add(&model_data.indices, (uint) 1);
+    add(&model_data.indices, (uint) 2);
+
+    setup_list(&model_data.vertices, 4);
+    vertex_data_t vertice;
+
+    vertice.position = glm::vec3(center.x - size.x, center.y + size.y, center.z);
+    vertice.tex_coord = glm::vec2(0, 1);
+    add(&model_data.vertices, vertice);
+
+    vertice.position = glm::vec3(center.x - size.x, center.y - size.y, center.z);
+    vertice.tex_coord = glm::vec2(0, 0);
+    add(&model_data.vertices, vertice);
+
+    vertice.position = glm::vec3(center.x + size.x, center.y + size.y, center.z);
+    vertice.tex_coord = glm::vec2(1, 1);
+    add(&model_data.vertices, vertice);
+
+    vertice.position = glm::vec3(center.x + size.x, center.y - size.y, center.z);
+    vertice.tex_coord = glm::vec2(1, 0);
+    add(&model_data.vertices, vertice);
+
+    add(&model.childs, model_data);
+
+    *mesh = create_mesh(&model);
 }

@@ -470,6 +470,8 @@ INIT_INPUT_RESULT init_input() {
     glfwSetMouseButtonCallback(window, &mouse_button_callback);
     glfwSetCursorPosCallback(window, &mouse_position_callback);
     glfwSetScrollCallback(window, &mouse_scroll_callback);
+
+    return INIT_INPUT_OK;
 }
 
 void release_input() {

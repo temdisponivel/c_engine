@@ -21,8 +21,8 @@ void window_size_callback(GLFWwindow* window, int width, int height) {
 INIT_VIDEO_RESULT init_video(init_video_params_t params) {
 
     // TODO: Get this from params
-    glfwWindowHint(GLFW_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_VERSION_MINOR, 0);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
     GLFWwindow *glfw_window = glfwCreateWindow(params.size.x, params.size.y, params.title, null, null);
     if (glfw_window == null) {
@@ -44,6 +44,8 @@ INIT_VIDEO_RESULT init_video(init_video_params_t params) {
     window.glfw_window = glfw_window;
 
     video_state.main_window = window;
+
+    return INIT_VIDEO_OK;
 }
 
 void release_video() {

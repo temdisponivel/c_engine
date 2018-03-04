@@ -315,7 +315,7 @@ void create_quad(mesh_t *mesh, material_t material, glm::vec3 center, glm::vec2 
     add(&model_data.indices, (uint) 2);
     add(&model_data.indices, (uint) 2);
     add(&model_data.indices, (uint) 1);
-    add(&model_data.indices, (uint) 2);
+    add(&model_data.indices, (uint) 3);
 
     setup_list(&model_data.vertices, 4);
     vertex_data_t vertice;

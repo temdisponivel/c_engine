@@ -8,9 +8,14 @@ camera_t camera;
 mesh_t quad;
 
 void update() {
+    glClearColor(1, 0, 0, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
+
     use_camera(&camera);
     use_material(&material);
     draw_mesh(&quad);
+
+    swap_windows_buffers();
 }
 
 int main() {

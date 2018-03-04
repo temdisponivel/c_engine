@@ -156,9 +156,10 @@ mesh_t create_mesh(const model_t *model, material_t material) {
     CHECK_GL_ERROR();
 
     const int STRIDE = ((3 + 2 + 3 + 3) * sizeof(float));
-    const int TEX_COORD_OFFSET = (3 * sizeof(float));
-    const int NORMAL_OFFSET = ((TEX_COORD_OFFSET  + 2) * sizeof(float));
-    const int COLOR_OFFSET = ((NORMAL_OFFSET + 3) * sizeof(float));
+    const int POSITION_OFFSET = 0; // doesn't have to skip any float
+    const int TEX_COORD_OFFSET = (3 * sizeof(float)); // skip the 3 floats of position
+    const int NORMAL_OFFSET = ((3 + 2) * sizeof(float)); // skip 3 floats of positions + 2 of uv
+    const int COLOR_OFFSET = ((3 + 2 + 3) * sizeof(float)); // skip 3 of positions + 2 of uv + 3 of normals
 
     glVertexAttribPointer(
             POSITION_ATTRIBUTE_INDEX,
@@ -166,7 +167,7 @@ mesh_t create_mesh(const model_t *model, material_t material) {
             GL_FLOAT,
             GL_FALSE,
             STRIDE,
-            0
+            (void *) POSITION_OFFSET
     );
     CHECK_GL_ERROR();
 
@@ -322,18 +323,22 @@ void create_quad(mesh_t *mesh, material_t material, glm::vec3 center, glm::vec2 
 
     vertice.position = glm::vec3(center.x - size.x, center.y + size.y, center.z);
     vertice.tex_coord = glm::vec2(0, 1);
+    vertice.color = glm::vec3(1, 0, 1);
     add(&model_data.vertices, vertice);
 
     vertice.position = glm::vec3(center.x - size.x, center.y - size.y, center.z);
     vertice.tex_coord = glm::vec2(0, 0);
+    vertice.color = glm::vec3(1, 1, 1);
     add(&model_data.vertices, vertice);
 
     vertice.position = glm::vec3(center.x + size.x, center.y + size.y, center.z);
     vertice.tex_coord = glm::vec2(1, 1);
+    vertice.color = glm::vec3(0, 0, 1);
     add(&model_data.vertices, vertice);
 
     vertice.position = glm::vec3(center.x + size.x, center.y - size.y, center.z);
     vertice.tex_coord = glm::vec2(1, 0);
+    vertice.color = glm::vec3(0, 1, 1);
     add(&model_data.vertices, vertice);
 
     add(&model.childs, model_data);

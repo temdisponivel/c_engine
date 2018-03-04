@@ -33,9 +33,9 @@ typedef struct mesh_data {
 } mesh_data_t;
 
 typedef struct mesh {
-    gl_handle vao_handle;
-    gl_handle vbo_handle;
-    gl_handle vio_handle;
+    gl_uhandle vao_handle;
+    gl_uhandle vbo_handle;
+    gl_uhandle vio_handle;
 
     list<mesh_data_t> childs;
 } mesh_t;

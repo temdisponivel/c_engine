@@ -6,6 +6,7 @@
 material_t material;
 camera_t camera;
 mesh_t quad;
+texture_t texture;
 
 void update() {
     glClearColor(1, 0, 0, 1);
@@ -27,8 +28,17 @@ int main() {
     if (init_engine(init_params) != INIT_ENGINE_OK)
         return -1;
 
+    texture = create_texture_from_file("data/textures/the_witness.png", true);
+
     material_definition_t definition = {};
     setup_default_material_definition(&definition);
+
+    uniform_definition_t texture_uni = {};
+    texture_uni.name = (char *) "diffuse_texture";
+    texture_uni.type = UNIFORM_TEXTURE2D;
+    texture_uni.default_value.texture_value.texture = texture;
+    texture_uni.default_value.texture_value.index = TEX_ZERO;
+    add(&definition.uniforms, texture_uni);
 
     definition.vertex_code = read_file_text((char *) "data/shaders/gui_vertex_shader.glsl");
     definition.fragment_code = read_file_text((char *) "data/shaders/vertex_color_frag_shader.glsl");
@@ -49,6 +59,10 @@ int main() {
 
     loop();
     release_engine();
+
+    destroy_texture(texture);
+    destroy_material(material);
+    destroy_mesh(quad);
 
     return 0;
 }

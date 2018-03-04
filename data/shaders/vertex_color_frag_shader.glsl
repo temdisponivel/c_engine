@@ -4,8 +4,11 @@ in vec3 position;
 in vec3 color;
 in vec2 tex_coord;
 
-out vec3 out_color;
+uniform sampler2D diffuse_texture;
+
+out vec4 out_color;
 
 void main() {
-    out_color = color + vec3(tex_coord, 1);
+    vec4 tex_color = texture(diffuse_texture, tex_coord);
+    out_color = tex_color * vec4(color, 1);
 }

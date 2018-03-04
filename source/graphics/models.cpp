@@ -106,6 +106,7 @@ void destroy_model(model_t model) {
     for (int i = 0; i < model.childs.length; ++i) {
         destroy_model_data(model.childs.items[i]);
     }
+    release_list(&model.childs);
 }
 
 mesh_t create_mesh_default_mat(const model_t *model) {
@@ -207,7 +208,7 @@ mesh_t create_mesh(const model_t *model, material_t material) {
 
     mesh_t mesh = {};
 
-    list<mesh_data_t> childs;
+    list<mesh_data_t> childs = {};
     setup_list(&childs, model->childs.length);
 
     for (int i = 0; i < model->childs.length; ++i) {
@@ -344,4 +345,6 @@ void create_quad(mesh_t *mesh, material_t material, glm::vec3 center, glm::vec2 
     add(&model.childs, model_data);
 
     *mesh = create_mesh(&model, material);
+
+    destroy_model(model);
 }

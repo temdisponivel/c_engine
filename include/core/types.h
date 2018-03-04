@@ -17,7 +17,8 @@ typedef uint16_t ushort;
 typedef uint32_t uint;
 typedef uint64_t ulong;
 
-typedef uint gl_handle;
+typedef uint gl_uhandle;
+typedef int gl_handle;
 
 typedef void *(*allocator)(uint size);
 typedef void (*deallocator)(void *ptr);

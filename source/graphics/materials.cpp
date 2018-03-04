@@ -8,7 +8,7 @@ void send_uniform_to_gl(uniform_t *uniform) {
     CHECK_GL_ERROR(); // Make sure the error happens in this method
 
     // The shader doesn't have the material uniform defined on the material file
-    if (uniform->handle <= 0) // TODO: can uniforms have 0 as id??
+    if (uniform->handle < 0) // TODO: can uniforms have 0 as id??
         return;
 
     switch (uniform->type) {
@@ -76,7 +76,7 @@ void send_uniform_to_gl(uniform_t *uniform) {
             break;
         case UNIFORM_TEXTURE2D:
             glActiveTexture(uniform->value.texture_value.index);
-            gl_handle handle = 0;
+            gl_handle handle = -1;
             if (uniform->value.texture_value.texture.handle > 0)
                 handle = uniform->value.texture_value.texture.handle;
 
@@ -201,7 +201,7 @@ uniform_t get_uniform_from_definition(shader_program_t shader, uniform_definitio
     uniform.id = get_uniform_id(definition->name);
     uniform.value = definition->default_value;
     uniform.type = definition->type;
-    uniform.handle = (uint) fmax(0, glGetUniformLocation(shader.program, definition->name));
+    uniform.handle = glGetUniformLocation(shader.program, definition->name);
     return uniform;
 }
 

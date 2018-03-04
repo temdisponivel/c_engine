@@ -78,10 +78,10 @@ typedef struct material_definition {
 } material_definition_t;
 
 typedef struct shader_program {
-    gl_handle program;
-    gl_handle vertex_handle;
-    gl_handle fragment_handle;
-    gl_handle geometry_handle;
+    gl_uhandle program;
+    gl_uhandle vertex_handle;
+    gl_uhandle fragment_handle;
+    gl_uhandle geometry_handle;
 } shader_program_t;
 
 typedef struct material {

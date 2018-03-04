@@ -223,5 +223,7 @@ texture_t create_texture_from_mem(const ubyte *image_data, long data_length, boo
 }
 
 void destroy_texture(texture_t texture) {
-    glDeleteTextures(1, &texture.handle);
+    ENSURE(texture.handle >= 0);
+
+    glDeleteTextures(1, (uint *) &texture.handle);
 }

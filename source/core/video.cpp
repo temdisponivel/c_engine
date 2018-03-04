@@ -33,6 +33,8 @@ INIT_VIDEO_RESULT init_video(init_video_params_t params) {
     glfwSetWindowSizeCallback(glfw_window, &window_size_callback);
     glfwMakeContextCurrent(glfw_window);
 
+    glewInit();
+
     // TODO: Do we always do this?
     glfwSwapInterval(1);
 

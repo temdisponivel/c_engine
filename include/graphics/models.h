@@ -43,11 +43,12 @@ typedef struct mesh {
 model_t create_model_from_obj(const char *file_path);
 void destroy_model(model_t model);
 
-mesh_t create_mesh(const model_t *model);
+mesh_t create_mesh_default_mat(const model_t *model);
+mesh_t create_mesh(const model_t *model, material_t material);
 void destroy_mesh(mesh_t mesh);
 
 void draw_mesh(mesh_t *mesh);
 
-void create_quad(mesh_t *mesh, glm::vec3 center, glm::vec2 size);
+void create_quad(mesh_t *mesh, material_t material, glm::vec3 center, glm::vec2 size);
 
 #endif //ENGINE_MODELS_H

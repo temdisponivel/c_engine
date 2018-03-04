@@ -19,9 +19,10 @@ int main() {
     init_params.video_params.size = glm::ivec2(1600, 1024);
     init_params.video_params.title = (char *) "Hello world!";
 
-    init_engine(init_params);
+    if (init_engine(init_params) != INIT_ENGINE_OK)
+        return -1;
 
-    material_definition_t definition;
+    material_definition_t definition = {};
     setup_default_material_definition(&definition);
 
     definition.vertex_code = read_file_text((char *) "data/shaders/gui_vertex_shader.glsl");
@@ -29,7 +30,7 @@ int main() {
 
     create_material(&material, &definition);
 
-    create_quad(&quad, glm::vec3(0, 0, 0), glm::vec2(.5f, .5f));
+    create_quad(&quad, material, glm::vec3(0, 0, 0), glm::vec2(.5f, .5f));
 
     orthogonal_params_t cam_params;
     cam_params.left = -1;

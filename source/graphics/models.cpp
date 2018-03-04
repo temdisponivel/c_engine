@@ -108,7 +108,13 @@ void destroy_model(model_t model) {
     }
 }
 
-mesh_t create_mesh(const model_t *model) {
+mesh_t create_mesh_default_mat(const model_t *model) {
+    material_t material = {};
+    get_default_material(&material);
+    return create_mesh(model, material);
+}
+
+mesh_t create_mesh(const model_t *model, material_t material) {
     uint vao = 0;
     uint vio = 0;
     uint vbo = 0;
@@ -203,9 +209,6 @@ mesh_t create_mesh(const model_t *model) {
     list<mesh_data_t> childs;
     setup_list(&childs, model->childs.length);
 
-    material_t material;
-    get_default_material(&material);
-
     for (int i = 0; i < model->childs.length; ++i) {
         model_data_t model_data = model->childs.items[i];
 
@@ -253,23 +256,18 @@ void destroy_mesh(mesh_t mesh) {
     release_list(&mesh.childs);
 }
 
-void set_vertex_attributes_state(bool state) {
-    if (state) {
+void enable_vertex_attributes() {
+    glEnableVertexAttribArray(POSITION_ATTRIBUTE_INDEX);
+    glEnableVertexAttribArray(TEX_COORD_ATTRIBUTE_INDEX);
+    glEnableVertexAttribArray(NORMAL_ATTRIBUTE_INDEX);
+    glEnableVertexAttribArray(COLOR_ATTRIBUTE_INDEX);
+}
 
-        // TODO: maybe put flags on the msh and only enable attributes that the mesh has data for
-        glEnableVertexAttribArray(POSITION_ATTRIBUTE_INDEX);
-        glEnableVertexAttribArray(TEX_COORD_ATTRIBUTE_INDEX);
-        glEnableVertexAttribArray(NORMAL_ATTRIBUTE_INDEX);
-        glEnableVertexAttribArray(COLOR_ATTRIBUTE_INDEX);
-
-    } else {
-
-        glDisableVertexAttribArray(POSITION_ATTRIBUTE_INDEX);
-        glDisableVertexAttribArray(TEX_COORD_ATTRIBUTE_INDEX);
-        glDisableVertexAttribArray(NORMAL_ATTRIBUTE_INDEX);
-        glDisableVertexAttribArray(COLOR_ATTRIBUTE_INDEX);
-
-    }
+void disable_vertex_attributes() {
+    glDisableVertexAttribArray(POSITION_ATTRIBUTE_INDEX);
+    glDisableVertexAttribArray(TEX_COORD_ATTRIBUTE_INDEX);
+    glDisableVertexAttribArray(NORMAL_ATTRIBUTE_INDEX);
+    glDisableVertexAttribArray(COLOR_ATTRIBUTE_INDEX);
 }
 
 void draw_mesh(mesh_t *mesh) {
@@ -279,32 +277,36 @@ void draw_mesh(mesh_t *mesh) {
     glBindVertexArray(mesh->vao_handle);
     CHECK_GL_ERROR();
 
-    set_vertex_attributes_state(true);
+    enable_vertex_attributes();
 
     for (int i = 0; i < mesh->childs.length; ++i) {
         mesh_data_t mesh_data = mesh->childs.items[i];
         use_material(&mesh_data.material);
 
         if (mesh_data.use_element_array) {
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->vio_handle);
             glDrawElements(GL_TRIANGLES, mesh_data.element_count, GL_UNSIGNED_INT, null);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, HANDLE_NONE);
+
             CHECK_GL_ERROR();
         } else {
             glDrawArrays(GL_TRIANGLES, 0, mesh_data.element_count);
+            CHECK_GL_ERROR();
         }
     }
 
-    set_vertex_attributes_state(false);
+    disable_vertex_attributes();
 
     glBindVertexArray(HANDLE_NONE);
 }
 
-void create_quad(mesh_t *mesh, glm::vec3 center, glm::vec2 size) {
+void create_quad(mesh_t *mesh, material_t material, glm::vec3 center, glm::vec2 size) {
     ENSURE(mesh != null);
 
-    model_t model;
+    model_t model = {};
     setup_list(&model.childs, 1);
 
-    model_data_t model_data;
+    model_data_t model_data = {};
     model_data.material_name = copy_string("quad_material");
 
     setup_list(&model_data.indices, 6);
@@ -336,5 +338,5 @@ void create_quad(mesh_t *mesh, glm::vec3 center, glm::vec2 size) {
 
     add(&model.childs, model_data);
 
-    *mesh = create_mesh(&model);
+    *mesh = create_mesh(&model, material);
 }

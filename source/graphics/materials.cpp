@@ -5,51 +5,65 @@
 #include "graphics/materials.h"
 
 void send_uniform_to_gl(uniform_t *uniform) {
+    CHECK_GL_ERROR(); // Make sure the error happens in this method
 
     // The shader doesn't have the material uniform defined on the material file
-    if (uniform->handle < 0)
+    if (uniform->handle <= 0) // TODO: can uniforms have 0 as id??
         return;
 
     switch (uniform->type) {
 
         case UNIFORM_BOOLEAN:
             glUniform1i(uniform->handle, uniform->value.bool_value);
+            CHECK_GL_ERROR();
             break;
         case UNIFORM_BYTE:
             glUniform1i(uniform->handle, uniform->value.byte_value);
+            CHECK_GL_ERROR();
             break;
         case UNIFORM_UBYTE:
             glUniform1ui(uniform->handle, uniform->value.ubyte_value);
+            CHECK_GL_ERROR();
             break;
         case UNIFORM_SHORT:
             glUniform1i(uniform->handle, uniform->value.short_value);
+            CHECK_GL_ERROR();
             break;
         case UNIFORM_USHORT:
             glUniform1ui(uniform->handle, uniform->value.ushort_value);
+            CHECK_GL_ERROR();
             break;
         case UNIFORM_INT:
             glUniform1i(uniform->handle, uniform->value.int_value);
+            CHECK_GL_ERROR();
             break;
         case UNIFORM_UINT:
             glUniform1ui(uniform->handle, uniform->value.uint_value);
+            CHECK_GL_ERROR();
             break;
         case UNIFORM_LONG:
             glUniform1i(uniform->handle, uniform->value.long_value);
+            CHECK_GL_ERROR();
             break;
         case UNIFORM_FLOAT:
             glUniform1f(uniform->handle, uniform->value.float_value);
+            CHECK_GL_ERROR();
             break;
         case UNIFORM_DOUBLE:
             glUniform1d(uniform->handle, uniform->value.double_value);
+            CHECK_GL_ERROR();
             break;
         case UNIFORM_VEC2:
             glUniform2fv(uniform->handle, 1, (const GLfloat *) glm::value_ptr(uniform->value.vector2_value));
+            CHECK_GL_ERROR();
             break;
         case UNIFORM_VEC3:
             glUniform3fv(uniform->handle, 1, (const GLfloat *) glm::value_ptr(uniform->value.vector3_value));
+            CHECK_GL_ERROR();
             break;
         case UNIFORM_VEC4:
             glUniform4fv(uniform->handle, 1, (const GLfloat *) glm::value_ptr(uniform->value.vector4_value));
+            CHECK_GL_ERROR();
             break;
         case UNIFORM_MATRIX:
             glUniformMatrix4fv(
@@ -58,7 +72,7 @@ void send_uniform_to_gl(uniform_t *uniform) {
                     GL_FALSE,
                     (const GLfloat *) glm::value_ptr(uniform->value.matrix_value)
             );
-
+            CHECK_GL_ERROR();
             break;
         case UNIFORM_TEXTURE2D:
             glActiveTexture(uniform->value.texture_value.index);
@@ -73,10 +87,9 @@ void send_uniform_to_gl(uniform_t *uniform) {
             // to get only the "{x}"
             // NOTE: this don't need to be done every frame
             glUniform1i(uniform->handle, uniform->value.texture_value.index - GL_TEXTURE0);
+            CHECK_GL_ERROR();
             break;
     }
-
-    CHECK_GL_ERROR();
 }
 
 void send_all_uniforms_to_gl(list<uniform_t> *uniforms) {
@@ -120,15 +133,15 @@ shader_program_t create_shader(
     uint fragment_shader = 0;
     uint geometry_shader = 0;
 
-    if (vertex_shader_code != 0){
+    if (vertex_shader_code != null){
         vertex_shader = create_gl_shader(vertex_shader_code, GL_VERTEX_SHADER);
     }
 
-    if (fragment_shader_code != 0) {
+    if (fragment_shader_code != null) {
         fragment_shader = create_gl_shader(fragment_shader_code, GL_FRAGMENT_SHADER);
     }
 
-    if (geometry_shader_code != 0) {
+    if (geometry_shader_code != null) {
         geometry_shader = create_gl_shader(geometry_shader_code, GL_GEOMETRY_SHADER);
     }
 
@@ -224,7 +237,18 @@ void setup_default_material_definition(material_definition_t *definition) {
 }
 
 void get_default_material(material_t *material) {
-    ENSURE(false);
+    // TODO: Make the default material be a single instance, instead of creating a new material every time
+    material_definition_t definition = {};
+    setup_default_material_definition(&definition);
+
+    definition.vertex_code = read_file_text("data/shaders/default_vertex_shader.glsl");
+    definition.fragment_code = read_file_text("data/shaders/default_fragment_shader.glsl");
+    definition.geometry_code = null;
+
+    create_material(material, &definition);
+
+    free_file_content(definition.vertex_code);
+    free_file_content(definition.fragment_code);
 }
 
 void create_material(material_t *material, const material_definition_t *definition) {

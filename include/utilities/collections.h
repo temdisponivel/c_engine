@@ -71,8 +71,8 @@ void setup_list(list <T> *list, uint capacity) {
     list->allocator = __default_allocator;
     list->deallocator = __default_deallocator;
 
-    expand(list, capacity);
     list->length = 0;
+    expand(list, capacity);
 }
 
 LIST_TEMPLATE

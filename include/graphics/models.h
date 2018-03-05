@@ -20,6 +20,7 @@ typedef struct model_data {
     list<vertex_data_t> vertices;
     list<uint> indices;
     char *material_name;
+    material_t material;
 } model_data_t;
 
 typedef struct model {
@@ -43,8 +44,7 @@ typedef struct mesh {
 model_t create_model_from_obj(const char *file_path);
 void destroy_model(model_t model);
 
-mesh_t create_mesh_default_mat(const model_t *model);
-mesh_t create_mesh(const model_t *model, material_t material);
+mesh_t create_mesh(const model_t *model);
 void destroy_mesh(mesh_t mesh);
 
 void draw_mesh(mesh_t *mesh);

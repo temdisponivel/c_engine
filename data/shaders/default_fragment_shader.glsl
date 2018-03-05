@@ -6,8 +6,11 @@ in vec3 pos;
 in vec3 color;
 in vec2 uv;
 
+uniform sampler2D diffuse_texture;
+
 out vec4 out_color;
 
 void main(void) {
-    out_color = vec4(1, 1, 1, 1);
+    vec4 tex_color = texture(diffuse_texture, uv);
+    out_color = tex_color;
 }

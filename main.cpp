@@ -3,20 +3,32 @@
 #include "graphics/materials.h"
 #include "graphics/models.h"
 
-material_t material;
 camera_t camera;
-mesh_t quad;
-texture_t texture;
+mesh_t power_loader;
 
 void update() {
     glClearColor(1, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
     use_camera(&camera);
-    use_material(&material);
-    draw_mesh(&quad);
+
+    for (int i = 0; i < power_loader.childs.length; ++i) {
+        mesh_data_t *mesh = &power_loader.childs.items[i];
+        gl_set_matrix(&mesh->material, "MVP", glm::mat4() * camera.projection * camera.view);
+    }
+
+    draw_mesh(&power_loader);
 
     swap_windows_buffers();
+}
+
+uniform_definition_t get_tex_uniform(char *tex_name, texture_t texture) {
+    uniform_definition_t texture_uni = {};
+    texture_uni.name = tex_name;
+    texture_uni.type = UNIFORM_TEXTURE2D;
+    texture_uni.default_value.texture_value.texture = texture;
+    texture_uni.default_value.texture_value.index = TEX_TWO;
+    return texture_uni;
 }
 
 int main() {
@@ -28,41 +40,56 @@ int main() {
     if (init_engine(init_params) != INIT_ENGINE_OK)
         return -1;
 
-    texture = create_texture_from_file("data/textures/the_witness.png", true);
+    model_t model = create_model_from_obj("data/models/PowerLoader.obj");
 
-    material_definition_t definition = {};
-    setup_default_material_definition(&definition);
+    char *vertex_code = read_file_text((char *) "data/shaders/default_vertex_shader.glsl");
+    char *fragment_code = read_file_text((char *) "data/shaders/default_fragment_shader.glsl");
 
-    uniform_definition_t texture_uni = {};
-    texture_uni.name = (char *) "diffuse_texture";
-    texture_uni.type = UNIFORM_TEXTURE2D;
-    texture_uni.default_value.texture_value.texture = texture;
-    texture_uni.default_value.texture_value.index = TEX_ZERO;
-    add(&definition.uniforms, texture_uni);
+    for (int i = 0; i < model.childs.length; ++i) {
+        model_data_t *data = &model.childs.items[i];
 
-    definition.vertex_code = read_file_text((char *) "data/shaders/gui_vertex_shader.glsl");
-    definition.fragment_code = read_file_text((char *) "data/shaders/vertex_color_frag_shader.glsl");
+        char *tex_name = null;
+        if (strcmp(data->material_name, "PowerLoaderGrate") == 0) {
+            tex_name = (char *) "data/models/PowerLoaderGrate_D.tga";
+        } else if (strcmp(data->material_name, "PowerLoaderLower") == 0) {
+            tex_name = (char *) "data/models/PowerLoaderLower_D.tga";
+        } else if (strcmp(data->material_name, "PowerLoaderUpper") == 0) {
+            tex_name = (char *) "data/models/PowerLoaderUpper_D.tga";
+        }
 
-    create_material(&material, &definition);
+        material_definition_t definition = {};
+        setup_list(&definition.uniforms, 4);
 
-    create_quad(&quad, material, glm::vec3(0, 0, 0), glm::vec2(.5f, .5f));
+        add_default_material_uniforms(&definition);
 
-    orthogonal_params_t cam_params;
-    cam_params.left = -1;
-    cam_params.right = 1;
-    cam_params.top = 1;
-    cam_params.bottom = -1;
-    cam_params.near_plane = -100;
-    cam_params.far_plane = 100;
+        definition.vertex_code = vertex_code;
+        definition.fragment_code = fragment_code;
 
-    setup_ortho(&camera, cam_params);
+        texture_t texture = create_texture_from_file(tex_name, true);
+        add(&definition.uniforms, get_tex_uniform((char *) "diffuse_texture", texture));
+
+        create_material(&data->material, &definition);
+
+        release_list(&definition.uniforms);
+    }
+
+    destroy_file_content(vertex_code);
+    destroy_file_content(fragment_code);
+
+    power_loader = create_mesh(&model);
+
+    perspective_params_t perspective;
+    perspective.aspect_ratio = 16/9.f;
+    perspective.field_of_view = 45.0f;
+    perspective.near_plane = .1f;
+    perspective.far_plane = 10000;
+
+    setup_perspetive(&camera, perspective);
+
+    camera.transform.position = glm::vec3(0, 0, 10.f);
 
     loop();
     release_engine();
-
-    destroy_texture(texture);
-    destroy_material(material);
-    destroy_mesh(quad);
 
     return 0;
 }

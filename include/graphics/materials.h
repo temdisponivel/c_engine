@@ -89,9 +89,7 @@ typedef struct material {
     list<uniform_t> uniforms;
 } material_t;
 
-void setup_default_material_definition(material_definition_t *definition);
-
-void get_default_material(material_t *material);
+void add_default_material_uniforms(material_definition_t *definition);
 
 void create_material(material_t *material, const material_definition_t *definition);
 

@@ -25,7 +25,7 @@ LIST_TEMPLATE
 list<T> *create_list(uint capacity);
 
 LIST_TEMPLATE
-void setup_list(list<T> *list);
+void setup_list(list<T> *list, uint capacity);
 
 LIST_TEMPLATE
 void destroy_list(list<T> *list);

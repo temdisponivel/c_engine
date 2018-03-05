@@ -205,13 +205,11 @@ uniform_t get_uniform_from_definition(shader_program_t shader, uniform_definitio
     return uniform;
 }
 
-void setup_default_material_definition(material_definition_t *definition) {
+void add_default_material_uniforms(material_definition_t *definition) {
     definition->vertex_attrib_names.position_name = POSITION_ATTRIBUTE_NAME;
     definition->vertex_attrib_names.tex_coord_name = TEX_COORD_ATTRIBUTE_NAME;
     definition->vertex_attrib_names.normal_name = NORMAL_ATTRIBUTE_NAME;
     definition->vertex_attrib_names.color_name = COLOR_ATTRIBUTE_NAME;
-
-    setup_list(&definition->uniforms, 5);
 
     uniform_definition_t uniform = {};
 
@@ -234,21 +232,6 @@ void setup_default_material_definition(material_definition_t *definition) {
     uniform.name = PROJECTION_UNIFORM_NAME;
     uniform.default_value.matrix_value = glm::mat4();
     add(&definition->uniforms, uniform);
-}
-
-void get_default_material(material_t *material) {
-    // TODO: Make the default material be a single instance, instead of creating a new material every time
-    material_definition_t definition = {};
-    setup_default_material_definition(&definition);
-
-    definition.vertex_code = read_file_text("data/shaders/default_vertex_shader.glsl");
-    definition.fragment_code = read_file_text("data/shaders/default_fragment_shader.glsl");
-    definition.geometry_code = null;
-
-    create_material(material, &definition);
-
-    free_file_content(definition.vertex_code);
-    free_file_content(definition.fragment_code);
 }
 
 void create_material(material_t *material, const material_definition_t *definition) {

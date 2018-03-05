@@ -35,7 +35,7 @@ ubyte *read_file_content(const char *file_path, long *length, bool is_string) {
     return buffer;
 }
 
-void free_file_content(char *content) {
+void destroy_file_content(char *content) {
     memfree(content);
 }
 
@@ -49,7 +49,7 @@ int hash(const char *str) {
 }
 
 char *copy_string(std::string string) {
-    char *name = (char *) memalloc(sizeof(char) * string.size());
-    memcpy(name, string.c_str(), sizeof(char) * string.size());
+    char *name = (char *) memalloc(sizeof(char) * string.size() + 1);
+    strcpy(name, string.c_str());
     return name;
 }

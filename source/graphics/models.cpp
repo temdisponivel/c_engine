@@ -109,13 +109,7 @@ void destroy_model(model_t model) {
     release_list(&model.childs);
 }
 
-mesh_t create_mesh_default_mat(const model_t *model) {
-    material_t material = {};
-    get_default_material(&material);
-    return create_mesh(model, material);
-}
-
-mesh_t create_mesh(const model_t *model, material_t material) {
+mesh_t create_mesh(const model_t *model) {
     uint vao = 0;
     uint vio = 0;
     uint vbo = 0;
@@ -228,7 +222,7 @@ mesh_t create_mesh(const model_t *model, material_t material) {
         mesh_data_t mesh_data = {};
 
         mesh_data.element_count = element_count;
-        mesh_data.material = material;
+        mesh_data.material = model_data.material;
         mesh_data.use_element_array = use_element_array;
 
         add(&childs, mesh_data);
@@ -342,9 +336,11 @@ void create_quad(mesh_t *mesh, material_t material, glm::vec3 center, glm::vec2 
     vertice.color = glm::vec3(0, 1, 1);
     add(&model_data.vertices, vertice);
 
+    model_data.material = material;
+
     add(&model.childs, model_data);
 
-    *mesh = create_mesh(&model, material);
+    *mesh = create_mesh(&model);
 
     destroy_model(model);
 }

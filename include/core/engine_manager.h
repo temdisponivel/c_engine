@@ -7,6 +7,7 @@
 
 #include "video.h"
 #include "input.h"
+#include "./time.h"
 
 typedef void (*update_callback)();
 

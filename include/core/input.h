@@ -309,6 +309,7 @@ typedef struct mouse_state {
     MOUSE_BUTTON_STATE mouse_button_middle_state;
 
     glm::vec2 screen_position;
+    glm::vec2 delta_screen_position;
     glm::vec2 delta_scroll;
 } mouse_state_t;
 
@@ -353,5 +354,7 @@ bool is_mouse_button_normal(MOUSE_BUTTON button);
 glm::vec2 get_mouse_screen_pos();
 
 glm::vec2 get_mouse_delta_scroll();
+
+glm::vec2 get_mouse_delta_screen_pos();
 
 #endif //ENGINE_INPUT_H

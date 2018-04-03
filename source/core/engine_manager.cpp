@@ -29,6 +29,8 @@ INITIALIZE_ENGINE_RESULT init_engine(init_engine_params_t params) {
         ERROR("Couldn't load input!");
         return INIT_ENGINE_FAIL;
     }
+    
+    init_time();
 
     ENSURE(params.update_callback != null);
 
@@ -48,6 +50,8 @@ void release_engine() {
 void run_one_frame() {
     update_input();
     update_video();
+    
+    time_start_frame();
 
     window_t window = get_window();
     if (window.state == WINDOW_SHOULD_BE_CLOSED || window.state == WINDOW_DESTROYED) {
@@ -58,6 +62,8 @@ void run_one_frame() {
 
         // Draw
     }
+    
+    time_finish_frame();
 }
 
 void loop() {

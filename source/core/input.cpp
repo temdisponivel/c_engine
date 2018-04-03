@@ -313,7 +313,9 @@ void mouse_scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
 }
 
 void mouse_position_callback(GLFWwindow *window, double x, double y) {
+    glm::vec2 last_mouse_pos = input_state.mouse_state.screen_position;
     input_state.mouse_state.screen_position = glm::vec2((float) x, (float) y);
+    input_state.mouse_state.delta_screen_position = input_state.mouse_state.screen_position - last_mouse_pos;
 }
 
 void update_keyboard_state(keyboard_state_t *keyboard) {
@@ -447,6 +449,7 @@ void update_keyboard_state(keyboard_state_t *keyboard) {
 void update_mouse_state(mouse_state_t *mouse) {
     // TODO: make a falloff functions, not just reset
     mouse->delta_scroll = glm::vec2(0, 0);
+    mouse->delta_screen_position = glm::vec2(0, 0);
 
     // First update the input_state from last frame to this frame (ie. Make "pressed buttons" into "down buttons")
     mouse->mouse_button_1_state = get_next_mouse_state(mouse->mouse_button_1_state);
@@ -667,6 +670,10 @@ bool is_mouse_button_normal(MOUSE_BUTTON button) {
 
 glm::vec2 get_mouse_screen_pos() {
     return input_state.mouse_state.screen_position;
+}
+
+glm::vec2 get_mouse_delta_screen_pos() {
+    return input_state.mouse_state.delta_screen_position;
 }
 
 glm::vec2 get_mouse_delta_scroll() {

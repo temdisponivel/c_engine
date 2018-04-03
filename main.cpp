@@ -3,18 +3,19 @@
 #include "graphics/materials.h"
 #include "graphics/models.h"
 
-camera_t camera;
+orbital_camera_t camera;
 mesh_t power_loader;
 
 void update() {
-    glClearColor(1, 0, 0, 1);
+    glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    use_camera(&camera);
+    update_orbital_camera(&camera);
+    use_camera(&camera.camera);
 
     for (int i = 0; i < power_loader.childs.length; ++i) {
         mesh_data_t *mesh = &power_loader.childs.items[i];
-        gl_set_matrix(&mesh->material, "MVP", glm::mat4() * camera.projection * camera.view);
+        gl_set_matrix(&mesh->material, "MVP", glm::mat4() * camera.camera.projection * camera.camera.view);
     }
 
     draw_mesh(&power_loader);
@@ -84,9 +85,11 @@ int main() {
     perspective.near_plane = .1f;
     perspective.far_plane = 10000;
 
-    setup_perspetive(&camera, perspective);
+    camera = {};
 
-    camera.transform.position = glm::vec3(0, 0, 10.f);
+    setup_perspetive(&camera.camera, perspective);
+
+    camera.camera.transform.position = glm::vec3(0, 0, 10.f);
 
     loop();
     release_engine();

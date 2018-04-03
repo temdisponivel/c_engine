@@ -133,7 +133,7 @@ shader_program_t create_shader(
     uint fragment_shader = 0;
     uint geometry_shader = 0;
 
-    if (vertex_shader_code != null){
+    if (vertex_shader_code != null) {
         vertex_shader = create_gl_shader(vertex_shader_code, GL_VERTEX_SHADER);
     }
 
@@ -355,82 +355,82 @@ void gl_set_texture_full(material_t *material, const char *uniform_name, texture
     send_uniform_to_gl(uniform);
 }
 
-bool gl_get_bool(material_t *material, const char *uniform_name){
+bool gl_get_bool(material_t *material, const char *uniform_name) {
     uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
     return uniform->value.bool_value;
 }
 
-byte gl_get_byte(material_t *material, const char *uniform_name){
+byte gl_get_byte(material_t *material, const char *uniform_name) {
     uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
     return uniform->value.byte_value;
 }
 
-ubyte gl_get_ubyte(material_t *material, const char *uniform_name){
+ubyte gl_get_ubyte(material_t *material, const char *uniform_name) {
     uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
     return uniform->value.ubyte_value;
 }
 
-short gl_get_short(material_t *material, const char *uniform_name){
+short gl_get_short(material_t *material, const char *uniform_name) {
     uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
     return uniform->value.short_value;
 }
 
-ushort gl_get_ushort(material_t *material, const char *uniform_name){
-    uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
-    return uniform->value.ushort_value;
-}
-
-int gl_get_int(material_t *material, const char *uniform_name){
-    uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
-    return uniform->value.int_value;
-}
-
-uint gl_get_uint(material_t *material, const char *uniform_name){
-    uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
-    return uniform->value.uint_value;
-}
-
-long gl_get_long(material_t *material, const char *uniform_name){
-    uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
-    return uniform->value.long_value;
-}
-
-float gl_get_float(material_t *material, const char *uniform_name){
+float gl_get_float(material_t *material, const char *uniform_name) {
     uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
     return uniform->value.float_value;
 }
 
-double gl_get_double(material_t *material, const char *uniform_name){
+double gl_get_double(material_t *material, const char *uniform_name) {
     uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
     return uniform->value.double_value;
 }
 
-glm::vec2 gl_get_vec2(material_t *material, const char *uniform_name){
+ushort gl_get_ushort(material_t *material, const char *uniform_name) {
+    uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
+    return uniform->value.ushort_value;
+}
+
+int gl_get_int(material_t *material, const char *uniform_name) {
+    uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
+    return uniform->value.int_value;
+}
+
+uint gl_get_uint(material_t *material, const char *uniform_name) {
+    uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
+    return uniform->value.uint_value;
+}
+
+long gl_get_long(material_t *material, const char *uniform_name) {
+    uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
+    return uniform->value.long_value;
+}
+
+glm::vec2 gl_get_vec2(material_t *material, const char *uniform_name) {
     uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
     return uniform->value.vector2_value;
 }
 
-glm::vec3 gl_get_vec3(material_t *material, const char *uniform_name){
+glm::vec3 gl_get_vec3(material_t *material, const char *uniform_name) {
     uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
     return uniform->value.vector3_value;
 }
 
-glm::vec4 gl_get_vec4(material_t *material, const char *uniform_name){
+glm::vec4 gl_get_vec4(material_t *material, const char *uniform_name) {
     uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
     return uniform->value.vector4_value;
 }
 
-glm::mat4 gl_get_matrix(material_t *material, const char *uniform_name){
+glm::mat4 gl_get_matrix(material_t *material, const char *uniform_name) {
     uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
     return uniform->value.matrix_value;
 }
 
-texture_t gl_get_texture(material_t *material, const char *uniform_name){
+texture_t gl_get_texture(material_t *material, const char *uniform_name) {
     uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
     return uniform->value.texture_value.texture;
 }
 
-texture_material_propery_t gl_get_texture_full(material_t *material, const char *uniform_name){
+texture_material_propery_t gl_get_texture_full(material_t *material, const char *uniform_name) {
     uniform_t *uniform = get_uniform(&material->uniforms, uniform_name);
     return uniform->value.texture_value;
 }

@@ -60,4 +60,6 @@ void update_video();
 
 void swap_windows_buffers();
 
+glm::vec3 pixel_to_world(glm::vec3 size);
+
 #endif //ENGINE_VIDEO_H

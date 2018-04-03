@@ -219,6 +219,7 @@ texture_t create_texture_from_file(const char *file_name, bool invert_y) {
 texture_t create_texture_from_mem(const ubyte *image_data, long data_length, bool invert_y) {
     image_t image = create_image_mem(image_data, data_length, invert_y);
     texture_config_t config = get_default_tex_config();
+    destroy_image(image);
     return create_texture(image, config);
 }
 

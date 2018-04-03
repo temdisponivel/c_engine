@@ -5,10 +5,14 @@
 
 orbital_camera_t camera;
 mesh_t power_loader;
+mesh_t quad;
 
 void update() {
     glClearColor(0, 0, 0, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    
 
     update_orbital_camera(&camera);
     use_camera(&camera.camera);
@@ -19,6 +23,14 @@ void update() {
     }
 
     draw_mesh(&power_loader);
+
+    for (int i = 0; i < quad.childs.length; ++i) {
+        mesh_data_t *mesh = &quad.childs.items[i];
+        gl_set_matrix(&mesh->material, "MVP", glm::mat4() * camera.camera.projection * camera.camera.view);
+    }
+    
+    
+    draw_mesh(&quad);
 
     swap_windows_buffers();
 }
@@ -42,7 +54,7 @@ int main() {
         return -1;
 
     model_t model = create_model_from_obj("data/models/PowerLoader.obj");
-
+    
     char *vertex_code = read_file_text((char *) "data/shaders/default_vertex_shader.glsl");
     char *fragment_code = read_file_text((char *) "data/shaders/default_fragment_shader.glsl");
 
@@ -74,6 +86,16 @@ int main() {
         release_list(&definition.uniforms);
     }
 
+    glm::ivec2 video_size = get_video_size();
+    
+    material_t mat = {};
+    material_definition_t def = {};
+    setup_list(&def.uniforms, 1);
+    add_default_material_uniforms(&def);
+    create_material(&mat, &def);
+    
+    create_quad(&quad, mat, glm::vec3(0, 0, 0), video_size);
+
     destroy_file_content(vertex_code);
     destroy_file_content(fragment_code);
 
@@ -87,7 +109,16 @@ int main() {
 
     camera = {};
 
-    setup_perspetive(&camera.camera, perspective);
+    
+    orthogonal_params_t ortho;
+    ortho.near_plane = -100000000;
+    ortho.far_plane = 100000000;
+    ortho.right = video_size.x / 2.f;
+    ortho.left = -video_size.x / 2.f;
+    ortho.top = video_size.y  / 2.f;
+    ortho.bottom = -video_size.y / 2.f;
+    setup_ortho(&camera.camera, ortho);
+    //setup_perspetive(&camera.camera, perspective);
 
     camera.camera.transform.position = glm::vec3(0, 0, 10.f);
 

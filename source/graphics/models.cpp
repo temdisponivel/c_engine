@@ -85,7 +85,7 @@ model_data_t get_model_data_from_obj(objl::Mesh mesh) {
 
 model_t create_model_from_obj(const char *file_path) {
     objl::Loader loader;
-    if (!loader.LoadFile(file_path)) {
+    if (!loader.LoadFile(file_path)) { // TODO: Write our own model loader
         ERROR("COULDN'T LOAD FILE!");
     }
 
@@ -315,23 +315,25 @@ void create_quad(mesh_t *mesh, material_t material, glm::vec3 center, glm::vec2 
 
     setup_list(&model_data.vertices, 4);
     vertex_data_t vertice;
+    
+    glm::vec2 half = size / 2.f;
 
-    vertice.position = glm::vec3(center.x - size.x, center.y + size.y, center.z);
+    vertice.position = glm::vec3(center.x - half.x, center.y + half.y, center.z);
     vertice.tex_coord = glm::vec2(0, 1);
     vertice.color = glm::vec3(1, 0, 1);
     add(&model_data.vertices, vertice);
 
-    vertice.position = glm::vec3(center.x - size.x, center.y - size.y, center.z);
+    vertice.position = glm::vec3(center.x - half.x, center.y - half.y, center.z);
     vertice.tex_coord = glm::vec2(0, 0);
     vertice.color = glm::vec3(1, 1, 1);
     add(&model_data.vertices, vertice);
 
-    vertice.position = glm::vec3(center.x + size.x, center.y + size.y, center.z);
+    vertice.position = glm::vec3(center.x + half.x, center.y + half.y, center.z);
     vertice.tex_coord = glm::vec2(1, 1);
     vertice.color = glm::vec3(0, 0, 1);
     add(&model_data.vertices, vertice);
 
-    vertice.position = glm::vec3(center.x + size.x, center.y - size.y, center.z);
+    vertice.position = glm::vec3(center.x + half.x, center.y - half.y, center.z);
     vertice.tex_coord = glm::vec2(1, 0);
     vertice.color = glm::vec3(0, 1, 1);
     add(&model_data.vertices, vertice);
